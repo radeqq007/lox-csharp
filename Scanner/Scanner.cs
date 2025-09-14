@@ -92,5 +92,13 @@
             String text = src[start..current];
             this.tokens.Add(new Token(type, text, literal, line));
         }
+
+        private bool Match(char expected)
+        {
+            if (IsAtEnd()) return false;
+            if (src[current] != expected) return false;
+            current++;
+            return true;
+        }
     }
 }
