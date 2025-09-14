@@ -70,6 +70,10 @@
                 case '*':
                     AddToken(TokenType.STAR);
                     break;
+
+                default:
+                    Program.Error(line, "Unexpected character.");
+                    break;
             }
         }
 
