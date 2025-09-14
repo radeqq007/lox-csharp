@@ -78,15 +78,15 @@
                 case '=':
                     AddToken(Match('=') ? TokenType.EQUAL_EQUAL : TokenType.EQUAL);
                     break;
-                
+
                 case '<':
                     AddToken(Match('=') ? TokenType.LESS_EQUAL : TokenType.LESS);
                     break;
-                
+
                 case '>':
                     AddToken(Match('=') ? TokenType.GREATER_EQUAL : TokenType.GREATER);
                     break;
-                
+
                 default:
                     Program.Error(line, "Unexpected character.");
                     break;
@@ -115,6 +115,12 @@
             if (src[current] != expected) return false;
             current++;
             return true;
+        }
+
+        private char Peek()
+        {
+            if (IsAtEnd()) return '\0';
+            return src[current];
         }
     }
 }
