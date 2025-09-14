@@ -71,6 +71,18 @@
                     AddToken(TokenType.STAR);
                     break;
 
+                
+                case '/':
+                    if (Match('/'))
+                    {
+                        while (Peek() != '\n' && !IsAtEnd()) Advance();
+                    }
+                    else
+                    {
+                        AddToken(TokenType.SLASH);
+                    }
+                    break;
+
                 case '!':
                     AddToken(Match('=') ? TokenType.BANG_EQUAL : TokenType.BANG);
                     break;
