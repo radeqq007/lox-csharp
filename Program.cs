@@ -47,13 +47,13 @@
             Console.WriteLine(src);
         }
 
-        static void Error(int line, string msg)
+        internal static void Error(int line, string msg)
         {
             Report(line, "", msg);
             HadError = true;
         }
 
-        static void Report(int line, string where, string msg)
+        internal static void Report(int line, string where, string msg)
         {
             Console.WriteLine($"[line {line}] Error{where}: {msg}");
         }
