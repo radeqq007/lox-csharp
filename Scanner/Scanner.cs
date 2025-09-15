@@ -3,33 +3,33 @@
     public class Scanner(string src)
     {
         private readonly string src = src;
-        private readonly List<Token> tokens = [];
+        private readonly List<Token.Token> tokens = [];
 
         private int start = 0;
         private int current = 0;
         private int line = 1;
 
-        private static readonly Dictionary<string, TokenType> keywords = new()
+        private static readonly Dictionary<string, Token.TokenType> keywords = new()
         {
-            {"and", TokenType.AND},
-            {"class", TokenType.CLASS},
-            {"else", TokenType.ELSE},
-            {"false", TokenType.FALSE},
-            {"for", TokenType.FOR},
-            {"fun", TokenType.FUN},
-            {"if", TokenType.IF},
-            {"nil", TokenType.NIL},
-            {"or", TokenType.OR},
-            {"print", TokenType.PRINT},
-            {"return", TokenType.RETURN},
-            {"super", TokenType.SUPER},
-            {"this", TokenType.THIS},
-            {"true", TokenType.TRUE},
-            {"var", TokenType.VAR},
-            {"while", TokenType.WHILE},
+            {"and", Token.TokenType.AND},
+            {"class", Token.TokenType.CLASS},
+            {"else", Token.TokenType.ELSE},
+            {"false", Token.TokenType.FALSE},
+            {"for", Token.TokenType.FOR},
+            {"fun", Token.TokenType.FUN},
+            {"if", Token.TokenType.IF},
+            {"nil", Token.TokenType.NIL},
+            {"or", Token.TokenType.OR},
+            {"print", Token.TokenType.PRINT},
+            {"return", Token.TokenType.RETURN},
+            {"super", Token.TokenType.SUPER},
+            {"this", Token.TokenType.THIS},
+            {"true", Token.TokenType.TRUE},
+            {"var", Token.TokenType.VAR},
+            {"while", Token.TokenType.WHILE},
         };
 
-        public List<Token> ScanTokens()
+        public List<Token.Token> ScanTokens()
         {
             while (!IsAtEnd())
             {
@@ -37,7 +37,7 @@
                 ScanToken();
             }
 
-            tokens.Add(new Token(TokenType.EOF, "", null, line));
+            tokens.Add(new Token.Token(Token.TokenType.EOF, "", null, line));
             return tokens;
         }
 
@@ -52,43 +52,43 @@
             switch (c)
             {
                 case '(':
-                    AddToken(TokenType.LEFT_PAREN);
+                    AddToken(Token.TokenType.LEFT_PAREN);
                     break;
 
                 case ')':
-                    AddToken(TokenType.RIGHT_PAREN);
+                    AddToken(Token.TokenType.RIGHT_PAREN);
                     break;
 
                 case '{':
-                    AddToken(TokenType.LEFT_BRACE);
+                    AddToken(Token.TokenType.LEFT_BRACE);
                     break;
 
                 case '}':
-                    AddToken(TokenType.RIGHT_BRACE);
+                    AddToken(Token.TokenType.RIGHT_BRACE);
                     break;
 
                 case ',':
-                    AddToken(TokenType.COMMA);
+                    AddToken(Token.TokenType.COMMA);
                     break;
 
                 case '.':
-                    AddToken(TokenType.DOT);
+                    AddToken(Token.TokenType.DOT);
                     break;
 
                 case '-':
-                    AddToken(TokenType.MINUS);
+                    AddToken(Token.TokenType.MINUS);
                     break;
 
                 case '+':
-                    AddToken(TokenType.PLUS);
+                    AddToken(Token.TokenType.PLUS);
                     break;
 
                 case ';':
-                    AddToken(TokenType.SEMICOLON);
+                    AddToken(Token.TokenType.SEMICOLON);
                     break;
 
                 case '*':
-                    AddToken(TokenType.STAR);
+                    AddToken(Token.TokenType.STAR);
                     break;
 
 
@@ -99,24 +99,24 @@
                     }
                     else
                     {
-                        AddToken(TokenType.SLASH);
+                        AddToken(Token.TokenType.SLASH);
                     }
                     break;
 
                 case '!':
-                    AddToken(Match('=') ? TokenType.BANG_EQUAL : TokenType.BANG);
+                    AddToken(Match('=') ? Token.TokenType.BANG_EQUAL : Token.TokenType.BANG);
                     break;
 
                 case '=':
-                    AddToken(Match('=') ? TokenType.EQUAL_EQUAL : TokenType.EQUAL);
+                    AddToken(Match('=') ? Token.TokenType.EQUAL_EQUAL : Token.TokenType.EQUAL);
                     break;
 
                 case '<':
-                    AddToken(Match('=') ? TokenType.LESS_EQUAL : TokenType.LESS);
+                    AddToken(Match('=') ? Token.TokenType.LESS_EQUAL : Token.TokenType.LESS);
                     break;
 
                 case '>':
-                    AddToken(Match('=') ? TokenType.GREATER_EQUAL : TokenType.GREATER);
+                    AddToken(Match('=') ? Token.TokenType.GREATER_EQUAL : Token.TokenType.GREATER);
                     break;
 
                 case '"':
@@ -149,15 +149,15 @@
             return src[current++];
         }
 
-        private void AddToken(TokenType type)
+        private void AddToken(Token.TokenType type)
         {
             AddToken(type, null);
         }
 
-        private void AddToken(TokenType type, object? literal)
+        private void AddToken(Token.TokenType type, object? literal)
         {
             string text = src[start..current];
-            tokens.Add(new Token(type, text, literal, line));
+            tokens.Add(new Token.Token(type, text, literal, line));
         }
 
         private bool Match(char expected)
@@ -197,7 +197,7 @@
             Advance(); // The closing "
 
             string val = src[(start + 1)..(current - 1)];
-            AddToken(TokenType.STRING, val);
+            AddToken(Token.TokenType.STRING, val);
         }
 
         private void Number()
@@ -211,7 +211,7 @@
                 while (IsDigit(Peek())) Advance();
             }
 
-            AddToken(TokenType.NUMBER, double.Parse(src[start..current]));
+            AddToken(Token.TokenType.NUMBER, double.Parse(src[start..current]));
         }
 
         private void Identifier() {
@@ -222,7 +222,7 @@
             AddToken(
                 keywords.TryGetValue(text, out var type)
                     ? type
-                    : TokenType.IDENTIFIER
+                    : Token.TokenType.IDENTIFIER
             );
         }
 

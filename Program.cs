@@ -46,7 +46,7 @@
             Scanner.Scanner scanner = new Scanner.Scanner(src);
             var tokens = scanner.ScanTokens();
 
-            foreach (Token tok in tokens)
+            foreach (Token.Token tok in tokens)
             {
                 Console.WriteLine(tok.ToString());
             }

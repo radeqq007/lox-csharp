@@ -1,4 +1,4 @@
-﻿namespace lox
+﻿namespace lox.Token
 {
 
     public class Token(TokenType type, string lexeme, object? literal, int line)
