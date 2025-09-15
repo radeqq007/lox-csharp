@@ -71,7 +71,7 @@
                     AddToken(TokenType.STAR);
                     break;
 
-                
+
                 case '/':
                     if (Match('/'))
                     {
@@ -99,10 +99,18 @@
                     AddToken(Match('=') ? TokenType.GREATER_EQUAL : TokenType.GREATER);
                     break;
 
+                case '"':
+                    String();
+                    break;
+
                 case ' ':
                 case '\r':
                 case '\t':
                     break; // Ignore whitespace
+
+                case '\n':
+                    line++;
+                    break;
 
                 default:
                     Program.Error(line, "Unexpected character.");
@@ -138,6 +146,26 @@
         {
             if (IsAtEnd()) return '\0';
             return src[current];
+        }
+
+        private void String()
+        {
+            while (Peek() != '"' && !IsAtEnd())
+            {
+                if (Peek() == '\n') line++;
+                Advance();
+            }
+
+            if (IsAtEnd())
+            {
+                Program.Error(line, "Unterminated string.");
+                return;
+            }
+
+            Advance(); // The closing "
+
+            string val = src[(start + 1)..(current - 1)];
+            AddToken(TokenType.STRING, val);
         }
     }
 }
