@@ -99,6 +99,11 @@
                     AddToken(Match('=') ? TokenType.GREATER_EQUAL : TokenType.GREATER);
                     break;
 
+                case ' ':
+                case '\r':
+                case '\t':
+                    break; // Ignore whitespace
+
                 default:
                     Program.Error(line, "Unexpected character.");
                     break;
