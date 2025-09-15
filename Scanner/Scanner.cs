@@ -1,4 +1,6 @@
-﻿namespace lox
+﻿using System.Globalization;
+
+namespace lox
 {
     public class Scanner(String src)
     {
@@ -113,7 +115,11 @@
                     break;
 
                 default:
-                    Program.Error(line, "Unexpected character.");
+                    if (IsDigit(c))
+                        Number();
+                    else
+                        Program.Error(line, "Unexpected character.");
+
                     break;
             }
         }
@@ -148,6 +154,12 @@
             return src[current];
         }
 
+        private char PeekNext()
+        {
+            if (current + 1 >= src.Length) return '\0';
+            return src[current + 1];
+        }
+
         private void String()
         {
             while (Peek() != '"' && !IsAtEnd())
@@ -166,6 +178,25 @@
 
             string val = src[(start + 1)..(current - 1)];
             AddToken(TokenType.STRING, val);
+        }
+
+        private void Number()
+        {
+            while (IsDigit(Peek())) Advance();
+
+            if (Peek() == '.' && IsDigit(PeekNext()))
+            {
+                Advance();
+
+                while (IsDigit(Peek())) Advance();
+            }
+
+            AddToken(TokenType.NUMBER, double.Parse(src[start..current]));
+        }
+
+        private static bool IsDigit(char c)
+        {
+            return c >= '0' && c <= '9';
         }
     }
 }
