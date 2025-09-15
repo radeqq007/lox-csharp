@@ -9,7 +9,7 @@
         private int current = 0;
         private int line = 1;
 
-        List<Token> ScanTokens()
+        public List<Token> ScanTokens()
         {
             while (!IsAtEnd())
             {
