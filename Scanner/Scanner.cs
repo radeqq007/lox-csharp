@@ -117,6 +117,8 @@ namespace lox
                 default:
                     if (IsDigit(c))
                         Number();
+                    else if (IsAlpha(c))
+                        Identifier();
                     else
                         Program.Error(line, "Unexpected character.");
 
@@ -194,9 +196,22 @@ namespace lox
             AddToken(TokenType.NUMBER, double.Parse(src[start..current]));
         }
 
+        private void Identifier() {
+            while (IsAlphaNumeric(Peek())) Advance();
+            AddToken(TokenType.IDENTIFIER);
+        }
+
         private static bool IsDigit(char c)
         {
             return c >= '0' && c <= '9';
+        }
+
+        private static bool IsAlpha(char c) {
+            return (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || c == '_';
+        }
+
+        private static bool IsAlphaNumeric(char c) {
+            return IsAlpha(c) || IsDigit(c);
         }
     }
 }
