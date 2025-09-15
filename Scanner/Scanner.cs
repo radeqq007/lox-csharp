@@ -136,8 +136,8 @@ namespace lox
 
         private void AddToken(TokenType type, object? literal)
         {
-            String text = src[start..current];
-            this.tokens.Add(new Token(type, text, literal, line));
+            string text = src[start..current];
+            tokens.Add(new Token(type, text, literal, line));
         }
 
         private bool Match(char expected)
