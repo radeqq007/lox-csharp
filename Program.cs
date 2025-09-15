@@ -43,7 +43,7 @@
         private static void Run(string src)
         {
             // For now, just print the tokens.
-            Scanner scanner = new Scanner(src);
+            Scanner.Scanner scanner = new Scanner.Scanner(src);
             var tokens = scanner.ScanTokens();
 
             foreach (Token tok in tokens)

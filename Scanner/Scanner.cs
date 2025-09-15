@@ -1,4 +1,4 @@
-﻿namespace lox
+﻿namespace lox.Scanner
 {
     public class Scanner(string src)
     {
