@@ -1,11 +1,8 @@
-﻿using System.Diagnostics.Tracing;
-using System.Globalization;
-
-namespace lox
+﻿namespace lox
 {
-    public class Scanner(String src)
+    public class Scanner(string src)
     {
-        private readonly String src = src;
+        private readonly string src = src;
         private readonly List<Token> tokens = [];
 
         private int start = 0;
